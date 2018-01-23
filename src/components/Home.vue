@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row wrap>
+    <v-layout row wrap class="mb-2">
       <v-flex xs12 sm6 class="text-sm-right text-xs-center">
         <v-btn class="orange lighten-2" large router to="/posts">See All Posts</v-btn>
       </v-flex>
@@ -8,7 +8,7 @@
         <v-btn class="orange lighten-2" large router to="/createpost">Write New Post</v-btn>
       </v-flex>
     </v-layout>
-    <v-layout row wrap>
+    <v-layout row wrap class="mb-2">
       <v-flex xs12>
         <v-carousel>
           <v-carousel-item v-for="post in posts" v-bind:src="post.imgUrl" :key="post.id">
@@ -16,6 +16,12 @@
           </v-carousel-item>
         </v-carousel>
       </v-flex>
+    </v-layout>
+     <v-layout row wrap class="mb-2">
+      <v-flex xs12  class="text-xs-center">
+        <p>Welcome to this awesome app !</p>
+      </v-flex>
+     
     </v-layout>
   </v-container>
 </template>
@@ -34,8 +40,7 @@
             imgUrl: 'http://lorempixel.com/output/nature-q-c-785-376-6.jpg',
             id: 'hdqshdkjqshdkqj',
             title: 'My Second Post'
-  
-          }
+            }
         ]
       }
     }
