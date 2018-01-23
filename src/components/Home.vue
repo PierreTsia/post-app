@@ -2,48 +2,45 @@
   <v-container>
     <v-layout row wrap class="mb-2">
       <v-flex xs12 sm6 class="text-sm-right text-xs-center">
-        <v-btn class="orange lighten-2" large router to="/posts">See All Posts</v-btn>
+        <v-btn dark class="accent secondary--text" large router to="/posts">See All Posts</v-btn>
       </v-flex>
       <v-flex xs12 sm6 class="text-sm-left text-xs-center">
-        <v-btn class="orange lighten-2" large router to="/createpost">Write New Post</v-btn>
+        <v-btn dark class="accent secondary--text" large router to="/createpost">Write New Post</v-btn>
       </v-flex>
     </v-layout>
     <v-layout row wrap class="mb-2">
       <v-flex xs12>
         <v-carousel>
-          <v-carousel-item v-for="post in posts" v-bind:src="post.imgUrl" :key="post.id">
-            <div class="title">{{post.title}}</div>
+          <v-carousel-item style="cursor:pointer" @click="onLoadPost(post.id)" v-for="post in posts" v-bind:src="post.imgUrl" :key="post.id">
+            <div class="title"> <div>{{post.title}}</div>  
+            <span style="font-size:0.7em" class="mt-1 warning--text">{{post.date}}</span>
+            </div>
           </v-carousel-item>
         </v-carousel>
       </v-flex>
     </v-layout>
-     <v-layout row wrap class="mb-2">
-      <v-flex xs12  class="text-xs-center">
+    <v-layout row wrap class="mb-2">
+      <v-flex xs12 class="text-xs-center">
         <p>Welcome to this awesome app !</p>
       </v-flex>
-     
+  
     </v-layout>
   </v-container>
 </template>
 
 <script>
   export default {
-    data() {
-      return {
-        posts: [{
-            imgUrl: 'http://lorempixel.com/output/nature-q-c-785-376-1.jpg',
-            id: 'qsjhdqshdqshdkjqd',
-            title: 'My First Post'
-  
-          },
-          {
-            imgUrl: 'http://lorempixel.com/output/nature-q-c-785-376-6.jpg',
-            id: 'hdqshdkjqshdkqj',
-            title: 'My Second Post'
-            }
-        ]
+    computed: {
+      posts() {
+        return this.$store.getters.featuredPosts
+        console.log(this.posts)
       }
-    }
+    },
+    methods: {
+      onLoadPost(id) {
+        this.$router.push('/posts/' + id)
+      }
+    },
   }
 </script>
 
@@ -58,7 +55,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     padding: 10px;
-    width:100%;
+    width: 100%;
     text-align: center;
   }
 </style>

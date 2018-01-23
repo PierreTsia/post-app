@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar dark class="deep-orange darken-4">
+    <v-toolbar dark class="primary">
       <v-toolbar-side-icon class="hidden-sm-and-up" @click.stop="sideNav = !sideNav"></v-toolbar-side-icon>
       <v-toolbar-title>
         <router-link tag="span" style="cursor : pointer" to="/"> My Post App</router-link>
@@ -14,7 +14,7 @@
          
           </span>
     </v-toolbar>
-    <v-navigation-drawer fixed temporary light v-model="sideNav" class="hidden-sm-and-up">
+    <v-navigation-drawer  fixed temporary dark v-model="sideNav" class="primary secondary--text hidden-sm-and-up">
       <v-list>
         <v-list-tile v-for="item in menuItems" :key="item.title">
           <v-btn :to="item.link" flat style="width:100%">
@@ -30,7 +30,7 @@
   
     </v-navigation-drawer>
   
-    <main>
+    <main class="warning">
       <router-view></router-view>
     </main>
   </v-app>
@@ -49,7 +49,7 @@
           {
             icon: "create",
             title: "New Post",
-            link: '/createpost'
+            link: '/posts/new'
           },
           {
             icon: "person",
