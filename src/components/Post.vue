@@ -12,8 +12,11 @@
                   </v-card-media>
                   <v-card-text>
                       <div class="accent--text">{{post.date}}</div>
-                     
-                          <div class="text-xs-justify">
+                       <div class="primary--text mb-3">
+                           {{post.description}}
+                          </div>
+                          
+                        <div class="text-xs-justify">
                            {{post.content}}
                           </div>
                   </v-card-text>
@@ -33,11 +36,11 @@
 
 <script>
 export default {
-  props :['id'],  
-  computed:{
-      post(){
-          return this.$store.getters.loadedPost(this.id)
-      }
+  props: ["id"],
+  computed: {
+    post() {
+      return this.$store.getters.loadedPost(this.id);
+    }
   }
-}
+};
 </script>

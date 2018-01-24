@@ -6,6 +6,15 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import {store} from './store'
+import moment from 'moment'
+
+
+const locale_moment = require('moment')
+require('moment/locale/fr')
+
+Vue.use(require('vue-moment'), {
+    locale_moment
+})
 
 Vue.use(Vuetify, { theme: {
   primary: '#22264b',
@@ -16,6 +25,7 @@ Vue.use(Vuetify, { theme: {
   success: '#4CAF50',
   warning: '#e6cf8b'
 }})
+
 
 Vue.config.productionTip = false
 
