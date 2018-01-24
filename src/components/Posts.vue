@@ -10,7 +10,7 @@
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">{{post.title}}</h3>
-              <span class="accent--text">{{post.date | moment("DD MMMM YYYY")}}</span>
+              <span class="accent--text">{{post.date | moment("DD MMMM YYYY, à HH:mm")}}</span>
               <div>{{post.description}}</div>
             </div>
           </v-card-title>
