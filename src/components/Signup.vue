@@ -61,30 +61,35 @@ export default {
   data() {
     return {
       email: "",
-      password :"",
-      confirmPassword:""
-    }
+      password: "",
+      confirmPassword: ""
+    };
   },
-  computed:{
-    comparePasswords(){
-      return this.password != this.confirmPassword ? 'Passwords do not match' : ''
+  computed: {
+    comparePasswords() {
+      return this.password != this.confirmPassword
+        ? "Passwords do not match"
+        : "";
     },
-    user(){
-      return this.$store.getters.getUser
+    user() {
+      return this.$store.getters.getUser;
     }
   },
   watch: {
-    user (value){
-      if (value !=null && value != undefined){
-        return this.$router.push('/posts')
+    user(value) {
+      if (value != null && value != undefined) {
+        return this.$router.push("/posts");
       }
     }
   },
-  methods:{
+  methods: {
     onSignUp() {
-      this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
+      this.$store.dispatch("signUserUp", {
+        email: this.email,
+        password: this.password
+      });
     }
   }
-}
+};
 </script>
 
