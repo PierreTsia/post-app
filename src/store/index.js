@@ -40,11 +40,7 @@ export const store = new Vuex.Store({
         date: '2017-09-04'
       },
     ],
-    user: {
-      id: 'skjqdhkjsqhdkjsq',
-      authoredPosts: ['hdqshdkjqshdkqj']
-
-    }
+    user: null
   },
   mutations: {
     createPost(state, payload) {
@@ -66,7 +62,7 @@ export const store = new Vuex.Store({
       }
       commit('createPost', newPost )
     },
-    onSignUserUp({commit}, payload){
+    signUserUp({commit}, payload){
         firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then ( 
             user => {
@@ -100,6 +96,10 @@ export const store = new Vuex.Store({
     },
     featuredPosts(state, getters) {
       return getters.loadedPosts.slice(0, 5)
+    },
+    getUser (state){
+        return state.user
     }
+
   }
 })

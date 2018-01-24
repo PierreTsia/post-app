@@ -40,8 +40,26 @@
   export default {
     data() {
       return {
-        sideNav: false,
-        menuItems: [{
+        sideNav: false
+      };
+    },
+    computed : {
+      menuItems(){
+        let menuItems = [
+           {
+            icon: "face",
+            title: "Sign Up",
+            link: '/signup'
+          },
+          {
+            icon: "lock_open",
+            title: "Sign In",
+            link: '/signin'
+          }
+        ]   
+        if( this.userIsAuth){
+          menuItems = [
+          {
             icon: "view_list",
             title: "View Posts",
             link: '/posts'
@@ -56,29 +74,24 @@
             title: "Profile",
             link: '/profile'
           },
-          {
-            icon: "face",
-            title: "Sign Up",
-            link: '/signup'
-          },
-          {
-            icon: "lock_open",
-            title: "Sign In",
-            link: '/signin'
-          }
-        ]
-      };
+          ]
+        }  
+        return menuItems
+      },
+      userIsAuth(){
+        return this.$store.getters.getUser != null && this.$store.getters.getUser != undefined
+      }
     },
     name: "App"
   };
 </script>
 
 <style scoped>
-  main {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: space-between;
-  }
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: space-between;
+}
 </style>
 
