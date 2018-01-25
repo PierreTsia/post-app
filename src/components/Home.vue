@@ -8,9 +8,18 @@
         <v-btn dark class="accent secondary--text" large router to="/createpost">Write New Post</v-btn>
       </v-flex>
     </v-layout>
+    <v-layout>
+      <v-flex xs12 class="text-xs-center">
+         <v-progress-circular 
+         indeterminate color="primary"
+         :width="5"
+         :size="20"
+         v-if="loading"></v-progress-circular>
+      </v-flex>
+    </v-layout>
     <v-layout row wrap class="mb-2">
       <v-flex xs12>
-        <v-carousel>
+        <v-carousel v-if="!loading">
           <v-carousel-item style="cursor:pointer" @click="onLoadPost(post.id)" v-for="post in posts" v-bind:src="post.imgUrl" :key="post.id">
             <div class="title"> <div>{{post.title}}</div>  
             <span style="font-size:0.7em" class="mt-1 warning--text">{{post.date | moment("DD MMMM YYYY, à HH:mm")}}</span>
@@ -34,6 +43,9 @@
       posts() {
         return this.$store.getters.featuredPosts
         console.log(this.posts)
+      },
+      loading(){
+        return this.$store.getters.loading
       }
     },
     methods: {

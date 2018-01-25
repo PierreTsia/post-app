@@ -66,6 +66,7 @@ export const store = new Vuex.Store({
   },
   actions: {
     loadPosts({commit}){
+      commit('setLoading', true)
       firebase.database().ref('posts').once('value')
         .then((data) =>{
           const posts = []
@@ -83,8 +84,10 @@ export const store = new Vuex.Store({
           }
           console.log(posts)
           commit('setLoadedPosts', posts)
+          commit('setLoading', false)
         })
         .catch((error) => {
+          commit('setLoading', false)
           console.log(error)
         }
       )
