@@ -10,7 +10,7 @@ export const store = new Vuex.Store({
         imgUrl: 'http://sachinchoolur.github.io/lightGallery/static/img/1-1600.jpg',
         id: 'qsjhdqshdqshdkjqd',
         title: 'My First Post',
-        description :'Description du premier post',
+        description: 'Description du premier post',
         content: 'Le super contenu de mon premier post',
         date: '2018-01-04'
 
@@ -19,7 +19,7 @@ export const store = new Vuex.Store({
         imgUrl: 'http://sachinchoolur.github.io/lightGallery/static/img/2-1600.jpg',
         id: 'hdqshdkjqshdkqj',
         title: 'My Second Post',
-        description :'Description du second post',
+        description: 'Description du second post',
         content: 'Le super contenu de mon second post',
         date: '2018-01-14'
       },
@@ -27,7 +27,7 @@ export const store = new Vuex.Store({
         imgUrl: 'http://sachinchoolur.github.io/lightGallery/static/img/13-1600.jpg',
         id: 'dfsqgfdgsqhfdhgqs',
         title: 'My Third Post',
-        description :'Description du troisième post',
+        description: 'Description du troisième post',
         content: 'Le super contenu de mon troisième post',
         date: '2017-11-21'
       },
@@ -35,66 +35,92 @@ export const store = new Vuex.Store({
         imgUrl: 'http://sachinchoolur.github.io/lightGallery/static/img/4-1600.jpg',
         id: 'kfsdlfcxnxwncnxw',
         title: 'My Fourth Post',
-        description :'Description du quatrième post',
+        description: 'Description du quatrième post',
         content: 'Le super contenu de mon quatrième post',
         date: '2017-09-04'
       },
     ],
-    user: null
+    user: null,
+    loading: false,
+    error: null
   },
   mutations: {
     createPost(state, payload) {
       state.loadedPosts.push(payload)
     },
-    setUser (state, payload) {
-        state.user = payload
+    setUser(state, payload) {
+      state.user = payload
+    },
+    setLoading(state, payload) {
+      state.loading = payload
+    },
+    setError(state, payload) {
+      state.error = payload
+    },
+    clearError(state) {
+      state.error = null
     }
   },
   actions: {
-    createPost({commit}, payload) {
+    clearError({commit}){
+      commit('clearError')
+    },
+    createPost({
+      commit
+    }, payload) {
       const newPost = {
-        title : payload.title,
-        description : payload.description,
-        imgUrl : payload.imgUrl,
-        content : payload.content,
-        date : payload.date,
+        title: payload.title,
+        description: payload.description,
+        imgUrl: payload.imgUrl,
+        content: payload.content,
+        date: payload.date,
         id: payload.id
       }
-      commit('createPost', newPost )
+      commit('createPost', newPost)
     },
-    signUserUp({commit}, payload){
-        firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-        .then ( 
-            user => {
-                const newUser = {
-                    id: user.uid,
-                    authoredPost: []
-                }
-                commit('setUser', newUser )
+    signUserUp({commit}, payload) {
+      commit('setLoading', true)
+      commit('clearError')
+      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+        .then(
+          user => {
+            commit('setLoading', false)
+            const newUser = {
+              id: user.uid,
+              authoredPost: []
             }
+            commit('setUser', newUser)
+          }
         )
         .catch(
-            error => {
-                console.log(error)
-            }
+          error => {
+            commit('setLoading', false)
+            commit('setError', error)
+            console.log(error)
+          }
         )
 
     },
-    signUserIn({commit}, payload){
-        firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+    signUserIn({commit}, payload) {
+      commit('setLoading', true)
+      commit('clearError')
+      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
-            user => {
-                const newUser = {
-                   id: user.uid,
-                   authoredPost :[]     
-                }
-                commit ('setUser', newUser)
+          user => {
+            commit('setLoading', false)
+            const newUser = {
+              id: user.uid,
+              authoredPost: []
             }
+            commit('setUser', newUser)
+          }
         )
         .catch(
-            error => {
-                console.log(error)
-            }
+          error => {
+            commit('setLoading', false)
+            commit('setError', error)
+            console.log(error)
+          }
         )
 
     }
@@ -115,8 +141,14 @@ export const store = new Vuex.Store({
     featuredPosts(state, getters) {
       return getters.loadedPosts.slice(0, 5)
     },
-    getUser (state){
-        return state.user
+    getUser(state) {
+      return state.user
+    },
+    error(state){
+      return state.error
+    },
+    loading(state){
+      return state.loading
     }
 
   }

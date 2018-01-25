@@ -8,6 +8,7 @@ import 'vuetify/dist/vuetify.min.css'
 import {store} from './store'
 import moment from 'moment'
 import * as firebase from 'firebase'
+import Alert from './components/shared/Alert.vue' 
 
 const locale_moment = require('moment')
 require('moment/locale/fr')
@@ -15,6 +16,8 @@ require('moment/locale/fr')
 Vue.use(require('vue-moment'), {
     locale_moment
 })
+
+Vue.component('app-alert', Alert)
 
 Vue.use(Vuetify, { theme: {
   primary: '#22264b',
