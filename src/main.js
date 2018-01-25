@@ -48,5 +48,6 @@ new Vue({
       storageBucket: "post-app-69c24.appspot.com",
       messagingSenderId: "1065353154276"
     })
+    this.$store.dispatch('loadPosts')
   }
 })

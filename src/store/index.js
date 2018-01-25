@@ -45,6 +45,9 @@ export const store = new Vuex.Store({
     error: null
   },
   mutations: {
+    setLoadedPosts(state, payload){
+      state.loadedPosts = payload
+    },
     createPost(state, payload) {
       state.loadedPosts.push(payload)
     },
@@ -62,12 +65,35 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    loadPosts({commit}){
+      firebase.database().ref('posts').once('value')
+        .then((data) =>{
+          const posts = []
+          const obj = data.val()
+          for (let key in obj){
+            posts.push({
+              id: key,
+              title: obj[key].title,
+              description : obj[key].description,
+              content : obj[key].content,
+              imgUrl : obj[key].imgUrl,
+              date: obj[key].date
+
+            })
+          }
+          console.log(posts)
+          commit('setLoadedPosts', posts)
+        })
+        .catch((error) => {
+          console.log(error)
+        }
+      )
+
+    },
     clearError({commit}){
       commit('clearError')
     },
-    createPost({
-      commit
-    }, payload) {
+    createPost({commit}, payload) {
       const newPost = {
         title: payload.title,
         description: payload.description,

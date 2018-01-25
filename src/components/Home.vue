@@ -13,7 +13,7 @@
         <v-carousel>
           <v-carousel-item style="cursor:pointer" @click="onLoadPost(post.id)" v-for="post in posts" v-bind:src="post.imgUrl" :key="post.id">
             <div class="title"> <div>{{post.title}}</div>  
-            <span style="font-size:0.7em" class="mt-1 warning--text">{{post.date}}</span>
+            <span style="font-size:0.7em" class="mt-1 warning--text">{{post.date | moment("DD MMMM YYYY, à HH:mm")}}</span>
             </div>
           </v-carousel-item>
         </v-carousel>
