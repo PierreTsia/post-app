@@ -28,15 +28,6 @@
          </v-layout>
            <v-layout >
             <v-text-field
-            name="id"
-            label="New post id"
-            id="id"
-            v-model="id"
-            required
-            ></v-text-field>
-         </v-layout>
-           <v-layout >
-            <v-text-field
             name="imgUrl"
             label="Image URL"
             id="imgUrl"
@@ -81,12 +72,11 @@ export default {
       imgUrl:'',
       content:'',
       date :'',
-      id:''
-    }
+        }
   },
   computed:{
     formIsValid(){
-      return this.title != '' && this.description != '' && this.imgUrl != '' && this.content != '' && this.id != ''
+      return this.title != '' && this.description != '' && this.imgUrl != '' && this.content != '' 
     }
   },
   methods: {
@@ -99,7 +89,6 @@ export default {
         description : this.description,
         imgUrl : this.imgUrl,
         content: this.content,
-        id: this.id,
         date : new Date()
         
       }

@@ -11,7 +11,7 @@
                    <v-card-media :src="post.imgUrl" height="400px">
                   </v-card-media>
                   <v-card-text>
-                      <div class="accent--text">{{post.date}}</div>
+                      <div class="accent--text">{{post.date | moment("DD MMMM YYYY, à HH:mm")}}</div>
                        <div class="primary--text mb-3">
                            {{post.description}}
                           </div>

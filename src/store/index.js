@@ -73,10 +73,22 @@ export const store = new Vuex.Store({
         description: payload.description,
         imgUrl: payload.imgUrl,
         content: payload.content,
-        date: payload.date,
-        id: payload.id
+        date: payload.date.toISOString()
       }
-      commit('createPost', newPost)
+      firebase.database().ref('posts').push(newPost)
+        .then((data) => {
+            const key = data.key
+            commit('createPost', {
+              ...newPost,
+              id : key
+            })
+          }
+        )
+        .catch((error) => {
+            console.log(error)
+          }
+        )
+      
     },
     signUserUp({commit}, payload) {
       commit('setLoading', true)
