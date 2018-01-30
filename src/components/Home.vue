@@ -53,11 +53,6 @@
         this.$router.push('/posts/' + id)
       }
     },
-   /*  mounted : {
-      getPosts(){
-        return this.$store.getters.featuredPosts
-      }
-    } */
   }
 </script>
 

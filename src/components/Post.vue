@@ -4,7 +4,14 @@
             <v-flex xs12>
             <v-card>
                 <v-card-title dark class="text-xs-left accent white--text">
+                    <v-layout row>
                     <h2 dark style="width:100%" class="">{{post.title}}</h2>
+                    <template v-if="userIsAuthor">
+                        <v-spacer></v-spacer>
+                        <app-edit-post-details :post="post"></app-edit-post-details>
+
+                    </template>
+                    </v-layout>
              
 
                 </v-card-title>
@@ -22,11 +29,7 @@
                   </v-card-text>
                    <v-divider></v-divider>
                    <v-card-actions>
-                        <v-flex class="text-xs-right">
-                            <v-btn light flat class="accent--text">
-                                <v-icon>bookmark</v-icon>
-                            </v-btn>
-                        </v-flex>
+                       <app-bookmark-dialog :postId="post.id"></app-bookmark-dialog>
                    </v-card-actions>
             </v-card>
             </v-flex>
@@ -40,6 +43,14 @@ export default {
   computed: {
     post() {
       return this.$store.getters.loadedPost(this.id);
+    },
+
+
+    userIsAuthor(){
+       if(!this.$store.getters.getUser){
+           return false
+       } 
+       return this.$store.getters.getUser.id == this.post.authorId  
     }
   }
 };

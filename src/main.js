@@ -9,6 +9,8 @@ import {store} from './store'
 import moment from 'moment'
 import * as firebase from 'firebase'
 import Alert from './components/shared/Alert.vue' 
+import EditPostDetails from './components/EditPostDetails.vue'
+import Bookmarks from './components/Bookmarks.vue'
 
 const locale_moment = require('moment')
 require('moment/locale/fr')
@@ -18,6 +20,8 @@ Vue.use(require('vue-moment'), {
 })
 
 Vue.component('app-alert', Alert)
+Vue.component('app-edit-post-details', EditPostDetails)
+Vue.component ('app-bookmark-dialog', Bookmarks)
 
 Vue.use(Vuetify, { theme: {
   primary: '#22264b',
