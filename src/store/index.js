@@ -6,40 +6,7 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    loadedPosts: [{
-        imgUrl: 'http://sachinchoolur.github.io/lightGallery/static/img/1-1600.jpg',
-        id: 'qsjhdqshdqshdkjqd',
-        title: 'My First Post',
-        description: 'Description du premier post',
-        content: 'Le super contenu de mon premier post',
-        date: '2018-01-04'
-
-      },
-      {
-        imgUrl: 'http://sachinchoolur.github.io/lightGallery/static/img/2-1600.jpg',
-        id: 'hdqshdkjqshdkqj',
-        title: 'My Second Post',
-        description: 'Description du second post',
-        content: 'Le super contenu de mon second post',
-        date: '2018-01-14'
-      },
-      {
-        imgUrl: 'http://sachinchoolur.github.io/lightGallery/static/img/13-1600.jpg',
-        id: 'dfsqgfdgsqhfdhgqs',
-        title: 'My Third Post',
-        description: 'Description du troisième post',
-        content: 'Le super contenu de mon troisième post',
-        date: '2017-11-21'
-      },
-      {
-        imgUrl: 'http://sachinchoolur.github.io/lightGallery/static/img/4-1600.jpg',
-        id: 'kfsdlfcxnxwncnxw',
-        title: 'My Fourth Post',
-        description: 'Description du quatrième post',
-        content: 'Le super contenu de mon quatrième post',
-        date: '2017-09-04'
-      },
-    ],
+    loadedPosts: [],
     user: null,
     loading: false,
     error: null
@@ -78,11 +45,11 @@ export const store = new Vuex.Store({
               description : obj[key].description,
               content : obj[key].content,
               imgUrl : obj[key].imgUrl,
-              date: obj[key].date
+              date: obj[key].date,
+              authorId : obj[key].authorId
 
             })
           }
-          console.log(posts)
           commit('setLoadedPosts', posts)
           commit('setLoading', false)
         })
@@ -96,23 +63,40 @@ export const store = new Vuex.Store({
     clearError({commit}){
       commit('clearError')
     },
-    createPost({commit}, payload) {
+    createPost({commit, getters}, payload) {
       const newPost = {
         title: payload.title,
         description: payload.description,
         imgUrl: payload.imgUrl,
         content: payload.content,
-        date: payload.date.toISOString()
+        date: payload.date.toISOString(),
+        authorId : getters.getUser.id
       }
+      let imgUrl
+      let key
       firebase.database().ref('posts').push(newPost)
         .then((data) => {
-            const key = data.key
-            commit('createPost', {
-              ...newPost,
-              id : key
-            })
+            key = data.key
+            return key  
           }
         )
+        .then( key => {
+          const filename = payload.image.name
+          const ext = filename.slice(filename.lastIndexOf('.'))
+          return firebase.storage().ref('posts/' + key + '.' + ext).put(payload.image)
+        })
+        .then(fileData => {
+          imgUrl = fileData.metadata.downloadURLs[0]
+          return firebase.database().ref('posts').child(key).update({imgUrl : imgUrl})
+           
+        })
+        .then(()=> {
+            commit('createPost', {
+            ...newPost,
+            imgUrl : imgUrl,
+            id : key
+            })
+        })
         .catch((error) => {
             console.log(error)
           }
@@ -164,6 +148,13 @@ export const store = new Vuex.Store({
           }
         )
 
+    },
+    autoSignIn({commit}, payload){
+      commit('setUser', {id : payload.uid,  authoredPost : []})
+    },
+    logout({commit}){
+      firebase.auth().signOut()
+      commit('setUser', null)
     }
   },
   getters: {

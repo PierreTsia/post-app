@@ -5,7 +5,7 @@
         <v-btn dark class="accent secondary--text" large router to="/posts">See All Posts</v-btn>
       </v-flex>
       <v-flex xs12 sm6 class="text-sm-left text-xs-center">
-        <v-btn dark class="accent secondary--text" large router to="/createpost">Write New Post</v-btn>
+        <v-btn dark class="accent secondary--text" large router to="/posts/new">Write New Post</v-btn>
       </v-flex>
     </v-layout>
     <v-layout>
@@ -53,6 +53,11 @@
         this.$router.push('/posts/' + id)
       }
     },
+   /*  mounted : {
+      getPosts(){
+        return this.$store.getters.featuredPosts
+      }
+    } */
   }
 </script>
 

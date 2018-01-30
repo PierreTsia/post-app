@@ -45,8 +45,13 @@ new Vue({
       authDomain: "post-app-69c24.firebaseapp.com",
       databaseURL: "https://post-app-69c24.firebaseio.com",
       projectId: "post-app-69c24",
-      storageBucket: "post-app-69c24.appspot.com",
+      storageBucket: "gs://post-app-69c24.appspot.com",
       messagingSenderId: "1065353154276"
+    })
+    firebase.auth().onAuthStateChanged((user)=>{
+      if(user) {
+        this.$store.dispatch('autoSignIn', user) 
+      } 
     })
     this.$store.dispatch('loadPosts')
   }

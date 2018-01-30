@@ -27,13 +27,12 @@
             ></v-text-field>
          </v-layout>
            <v-layout >
-            <v-text-field
-            name="imgUrl"
-            label="Image URL"
-            id="imgUrl"
-            v-model="imgUrl"
-            required
-            ></v-text-field>
+              <v-btn @click="onPickFile" raised dark class="accent ml-0">Upload Image</v-btn>
+              <input type="file" 
+              style = "display : none" 
+              ref="fileUpload" 
+              accept="image/*"
+              @change="onFilePicked">
          </v-layout>
          <v-layout row  xs12 sm6 offset-sm3>
            <v-flex>
@@ -53,7 +52,7 @@
          </v-layout>
          <v-layout row>
            <v-flex xs12>
-             <v-btn type="submit" class="accent" :disabled="!formIsValid">Create Post</v-btn>
+             <v-btn dark type="submit" class="accent" :disabled="!formIsValid">Create Post</v-btn>
            </v-flex>
          </v-layout>
        </form>
@@ -65,36 +64,61 @@
 
 <script>
 export default {
-  data(){
+  data() {
     return {
-      title:'',
-      description:'',
-      imgUrl:'',
-      content:'',
-      date :'',
-        }
+      title: "",
+      description: "",
+      imgUrl: "",
+      content: "",
+      date: "", 
+      image : null
+    };
   },
-  computed:{
-    formIsValid(){
-      return this.title != '' && this.description != '' && this.imgUrl != '' && this.content != '' 
+  computed: {
+    formIsValid() {
+      return (
+        this.title != "" &&
+        this.description != "" &&
+        this.imgUrl != "" &&
+        this.content != ""
+      );
     }
   },
   methods: {
-    onCreatePost(){
-      if(!this.formIsValid){
+    onCreatePost() {
+      if (!this.formIsValid) {
+        return;
+      }
+      if(!this.image){
         return
       }
-      const newPost ={
-        title : this.title,
-        description : this.description,
-        imgUrl : this.imgUrl,
+      const newPost = {
+        title: this.title,
+        description: this.description,
+        image: this.image,
         content: this.content,
-        date : new Date()
-        
+        date: new Date(),
+        imgUrl : this.imgUrl
+      };
+      this.$store.dispatch("createPost", newPost);
+      this.$router.push("/posts");
+    },
+    onPickFile() {
+      this.$refs.fileUpload.click();
+    },
+    onFilePicked(event) {
+      const files = event.target.files;
+      let filename = files[0].name;
+      if (filename.lastIndexOf(".") <= 0) {
+        return alert("Please choose a valid file !");
       }
-      this.$store.dispatch('createPost', newPost)
-      this.$router.push('/posts')
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.imgUrl = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+      this.image = files[0]
     }
   }
-}
+};
 </script>

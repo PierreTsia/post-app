@@ -12,7 +12,15 @@
             {{item.title}}
             </v-btn>
          
-          </span>
+       </span>
+       <span class="hidden-xs-only" v-if="userIsAuth" @click="onLogOut">
+             <v-btn flat>
+            <v-icon left>exit_to_app</v-icon>
+            Logout
+            </v-btn>
+         
+       </span>
+      
     </v-toolbar>
     <v-navigation-drawer  fixed temporary dark v-model="sideNav" class="primary secondary--text hidden-sm-and-up">
       <v-list>
@@ -26,7 +34,18 @@
             </v-list-tile-content>
           </v-btn>
         </v-list-tile>
+          <v-list-tile>
+          <v-btn flat style="width:100%">
+            <v-list-tile-action  v-if="userIsAuth" @click="onLogOut">
+              <v-icon left>exit_to_app</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              Logout
+            </v-list-tile-content>
+          </v-btn>
+        </v-list-tile>
       </v-list>
+
   
     </v-navigation-drawer>
   
@@ -37,53 +56,61 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        sideNav: false
-      };
-    },
-    computed : {
-      menuItems(){
-        let menuItems = [
-           {
-            icon: "face",
-            title: "Sign Up",
-            link: '/signup'
-          },
-          {
-            icon: "lock_open",
-            title: "Sign In",
-            link: '/signin'
-          }
-        ]   
-        if( this.userIsAuth){
-          menuItems = [
+export default {
+  data() {
+    return {
+      sideNav: false
+    };
+  },
+  methods : {
+    onLogOut(){
+      this.$store.dispatch("logout")
+    }
+  },
+  computed: {
+    menuItems() {
+      let menuItems = [
+        {
+          icon: "face",
+          title: "Sign Up",
+          link: "/signup"
+        },
+        {
+          icon: "lock_open",
+          title: "Sign In",
+          link: "/signin"
+        }
+      ];
+      if (this.userIsAuth) {
+        menuItems = [
           {
             icon: "view_list",
             title: "View Posts",
-            link: '/posts'
+            link: "/posts"
           },
           {
             icon: "create",
             title: "New Post",
-            link: '/posts/new'
+            link: "/post/new"
           },
           {
             icon: "person",
             title: "Profile",
-            link: '/profile'
-          },
-          ]
-        }  
-        return menuItems
-      },
-      userIsAuth(){
-        return this.$store.getters.getUser != null && this.$store.getters.getUser != undefined
+            link: "/profile"
+          }
+        ];
       }
+      return menuItems;
     },
-    name: "App"
-  };
+    userIsAuth() {
+      return (
+        this.$store.getters.getUser != null &&
+        this.$store.getters.getUser != undefined
+      );
+    }
+  },
+  name: "App"
+};
 </script>
 
 <style scoped>
@@ -94,41 +121,41 @@ main {
   align-items: space-between;
 }
 
- .custom-loader {
-    animation: loader 1s infinite;
-    display: flex;
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
   }
-  @-moz-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
   }
-  @-webkit-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+}
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
   }
-  @-o-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
   }
-  @keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+}
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
   }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 </style>
 
