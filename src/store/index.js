@@ -118,7 +118,6 @@ export const store = new Vuex.Store({
               imgUrl: obj[key].imgUrl,
               date: obj[key].date,
               authorId: obj[key].authorId
-
             })
           }
           commit('setLoadedPosts', posts)
@@ -128,7 +127,6 @@ export const store = new Vuex.Store({
           commit('setLoading', false)
           console.log(error)
         })
-
     },
     clearError({
       commit
@@ -176,7 +174,6 @@ export const store = new Vuex.Store({
         .catch((error) => {
           console.log(error)
         })
-
     },
     updatePostData({
       commit
@@ -227,7 +224,6 @@ export const store = new Vuex.Store({
             console.log(error)
           }
         )
-
     },
     signUserIn({
       commit
@@ -251,9 +247,7 @@ export const store = new Vuex.Store({
             commit('setLoading', false)
             commit('setError', error)
             console.log(error)
-          }
-        )
-
+          })
     },
     autoSignIn({
       commit
@@ -296,6 +290,5 @@ export const store = new Vuex.Store({
     loading(state) {
       return state.loading
     }
-
   }
 })
