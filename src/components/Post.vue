@@ -1,8 +1,17 @@
 <template>
     <v-container>
+    <v-layout>
+      <v-flex xs12 class="text-xs-center">
+         <v-progress-circular 
+         indeterminate color="primary"
+         :width="5"
+         :size="20"
+         v-if="loading"></v-progress-circular>
+      </v-flex>
+    </v-layout>
         <v-layout row wrap>
             <v-flex xs12>
-            <v-card>
+            <v-card v-if="!loading">
                 <v-card-title dark class="text-xs-left accent white--text">
                     <v-layout row>
                     <h2 dark style="width:100%" class="">{{post.title}}</h2>
@@ -27,9 +36,9 @@
                            {{post.content}}
                           </div>
                   </v-card-text>
-                   <v-divider></v-divider>
-                   <v-card-actions>
-                       <app-bookmark-dialog :postId="post.id"></app-bookmark-dialog>
+                   <v-divider v-if="userIsAuth && !userIsAuthor"></v-divider>
+                   <v-card-actions v-if="userIsAuth && !userIsAuthor">
+                       <app-bookmark-dialog :postId="post.id" ></app-bookmark-dialog>
                    </v-card-actions>
             </v-card>
             </v-flex>
@@ -41,16 +50,20 @@
 export default {
   props: ["id"],
   computed: {
+    loading(){
+      return this.$store.getters.loading
+    },
     post() {
       return this.$store.getters.loadedPost(this.id);
     },
-
-
-    userIsAuthor(){
-       if(!this.$store.getters.getUser){
-           return false
-       } 
-       return this.$store.getters.getUser.id == this.post.authorId  
+    userIsAuth() {
+      return this.$store.getters.getUser;
+    },
+    userIsAuthor() {
+      if (!this.$store.getters.getUser) {
+        return false;
+      }
+      return this.$store.getters.getUser.id == this.post.authorId;
     }
   }
 };

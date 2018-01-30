@@ -18,7 +18,6 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
-      beforeEnter: AuthGuard
     },
     {
       path: '/profile',
@@ -38,7 +37,6 @@ export default new Router({
       name: 'Post',
       props: true,
       component: Post,
-      beforeEnter: AuthGuard
     },
     {
       path: '/signin',
@@ -54,7 +52,6 @@ export default new Router({
       path: '/posts',
       name: 'Posts',
       component: Posts,
-      beforeEnter: AuthGuard
     }
 
 

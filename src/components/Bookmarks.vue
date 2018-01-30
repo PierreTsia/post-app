@@ -1,10 +1,10 @@
 <template>
   <v-dialog persistent  v-model="bookmarkDialog">
-      <v-btn  v-if="userHasBookmarked" error accent slot="activator">
+      <v-btn  v-if="userHasBookmarked" dark class="deep-orange darken-4" accent slot="activator">
         Unbookmark Post
           <v-icon>bookmark</v-icon>
       </v-btn>
-      <v-btn  v-else primary accent slot="activator">
+      <v-btn  v-else dark class="blue darken-1" accent slot="activator">
         Bookmark Post
           <v-icon>bookmark_border</v-icon>
       </v-btn>
